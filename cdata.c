@@ -35,6 +35,9 @@ static int cdata_ioctl(struct inode *inode, struct file *filp,
 {
 }
 
+static ssize_t (*pf_read)(struct file* filp, char __user *buf, size_t count, loff_t* f_pos);  
+static ssize_t (*pf_write)(struct file* filp, const char __user *buf, size_t count, loff_t* f_pos);
+
 static struct file_operations cdata_fops = {
     owner:      THIS_MODULE,
 
@@ -42,6 +45,8 @@ static struct file_operations cdata_fops = {
 	open:		cdata_open,
     release:    cdata_close,
     ioctl:      cdata_ioctl,
+    read:	pf_read,
+    write:	pf_write,
 };
 
 int cdata_init_module(void)
